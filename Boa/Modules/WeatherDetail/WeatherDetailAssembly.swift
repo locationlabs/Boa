@@ -33,9 +33,10 @@ extension WeatherDetailAssembly: AssemblyType {
         }
         
         // view controller
-        container.registerForStoryboard(WeatherDetailViewController.self, name: "WeatherDetail") { resolver, controller in
-            controller.presenter = resolver.resolve(WeatherDetailPresenter.self, argument: controller as WeatherDetailViewType)
+        container.registerForStoryboard(WeatherPageViewController.self, name: "WeatherDetailPage") { resolver, controller in
+            controller.presenter = resolver.resolve(WeatherDetailPresenter.self, argument: controller as WeatherPageViewType)
             controller.styler = resolver.resolve(WeatherDetailStyleType.self)
+            controller.pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
         }
         
         // presenter

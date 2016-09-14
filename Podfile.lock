@@ -4,7 +4,7 @@ PODS:
   - Medusa (1.0.0):
     - Swinject (~> 1.1)
   - PromiseKit/CorePromise (3.1.1)
-  - Swinject (1.1.1)
+  - Swinject (1.1.3)
 
 DEPENDENCIES:
   - Cobra (from `../Cobra`)
@@ -14,14 +14,14 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   Cobra:
-    :path: ../Cobra
+    :path: "../Cobra"
   Medusa:
-    :path: ../Medusa
+    :path: "../Medusa"
 
 SPEC CHECKSUMS:
   Cobra: dfecb6eccf98a8c639af56ede601db8e4e19e67a
   Medusa: ed63d5805a42787fe2770fe9bb2c6abd6d257fba
   PromiseKit: 4e8127c22a9b29d1b44958ab2ec762ea6115cbfb
-  Swinject: 8c1b46e49c604f8c5c1f45f92ef314d3736bbef4
+  Swinject: 69273c2419f93d52603c3a546f5d2792ee1a5e98
 
 COCOAPODS: 0.39.0

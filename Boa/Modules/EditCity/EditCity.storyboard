@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Edit City View Controller-->
+        <scene sceneID="Ei8-QX-Khe">
+            <objects>
+                <viewController storyboardIdentifier="EditCity" id="Mda-iA-asj" customClass="EditCityViewController" customModule="Boa" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2KW-BI-VwX"/>
+                        <viewControllerLayoutGuide type="bottom" id="NA0-hr-6yS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XBh-ED-CD9">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="2ie-cV-An3">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Gqm-aS-TB0">
+                            <connections>
+                                <action selector="doCancel:" destination="Mda-iA-asj" id="oVc-vX-wBt"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="0D2-cY-Xw8">
+                            <connections>
+                                <action selector="doAdd:" destination="Mda-iA-asj" id="UxY-4W-Awk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="swinjectRegistrationName" value="EditCity"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <outlet property="cancelBarButtonItem" destination="Gqm-aS-TB0" id="OIk-ZF-fT4"/>
+                        <outlet property="editBarButtonItem" destination="0D2-cY-Xw8" id="atj-Iy-QtR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qUW-2N-ndm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1212" y="300"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="2GC-jR-YAV">
+            <objects>
+                <navigationController storyboardIdentifier="noop" automaticallyAdjustsScrollViewInsets="NO" id="m5x-hr-L9A" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kUD-pF-R0H">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Mda-iA-asj" kind="relationship" relationship="rootViewController" id="wqb-Pc-WvJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CC5-0V-E2h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="400" y="300"/>
+        </scene>
+    </scenes>
+</document>

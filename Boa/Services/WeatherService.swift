@@ -15,7 +15,7 @@ extension WeatherService: WeatherServiceType {
 
     func fetchWeatherReportForCity(city: CityEntity) -> Promise<WeatherReportEntity> {
         return Promise<WeatherReportEntity> { resolve, reject in
-            resolve(WeatherReportEntity(city: city, temparture: .Fahrenheit(degrees: Double(arc4random_uniform(110) + 1))))
+            resolve(WeatherReportEntity(city: city, temperature: .Fahrenheit(degrees: Double(arc4random_uniform(110) + 1))))
         }
     }
 }

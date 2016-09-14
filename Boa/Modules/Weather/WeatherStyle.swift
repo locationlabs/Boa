@@ -1,36 +1,33 @@
 import UIKit
 
 
-final class WeatherStyle {
-    
-}
-
-protocol WeatherStyleType: class {
-    func styleGradientLayer(gradientLayer: CAGradientLayer, forTemparture temparture: Temparture)
-    func styleCityNameLabel(label: UILabel, forTemparture temparture: Temparture)
-    func styleTemparatureLabel(label: UILabel, forTemparture temparture: Temparture)
+protocol WeatherStyleType {
+    func styleGradientLayer(gradientLayer: CAGradientLayer, forTemparture temperature: Temperature)
+    func styleCityNameLabel(label: UILabel, forTemparture temperature: Temperature)
+    func styleTemparatureLabel(label: UILabel, forTemparture temperature: Temperature)
     func styleNavigationBar(navigationBar: UINavigationBar)
     func styleAddBarButtonItem(barButtonItem: UIBarButtonItem)
+    func styleFooterView(view: WeatherTableFooterView, isCelcius: Bool) 
 }
 
 // MARK: - WeatherStyleType
-extension WeatherStyle: WeatherStyleType {
+struct WeatherStyle: WeatherStyleType, BaseStyleType {
 
-    func styleGradientLayer(gradientLayer: CAGradientLayer, forTemparture temparture: Temparture) {
+    func styleGradientLayer(gradientLayer: CAGradientLayer, forTemparture temperature: Temperature) {
         gradientLayer.colors =  [
-            temparture.startColor.CGColor,
-            temparture.endColor.CGColor
+            temperature.startColor.CGColor,
+            temperature.endColor.CGColor
         ]
     }
     
-    func styleCityNameLabel(label: UILabel, forTemparture temparture: Temparture) {
+    func styleCityNameLabel(label: UILabel, forTemparture temperature: Temperature) {
         label.font = UIFont(name: "AvenirNext-Regular", size: 32.0)
-        label.textColor = temparture.textColor
+        label.textColor = temperature.textColor
     }
     
-    func styleTemparatureLabel(label: UILabel, forTemparture temparture: Temparture) {
+    func styleTemparatureLabel(label: UILabel, forTemparture temperature: Temperature) {
         label.font = UIFont(name: "AvenirNext-UltraLight", size: 54.0)
-        label.textColor = temparture.textColor
+        label.textColor = temperature.textColor
     }
 
     func styleNavigationBar(navigationBar: UINavigationBar) {
@@ -49,5 +46,22 @@ extension WeatherStyle: WeatherStyleType {
         barButtonItem.setTitleTextAttributes([
             NSFontAttributeName: UIFont(name: "AvenirNext-Regular", size: 17.0)!
         ], forState: .Normal)
+    }
+    
+    func styleFooterView(view: WeatherTableFooterView, isCelcius: Bool) {
+        let title = NSMutableAttributedString(string: "f / c", attributes: [NSForegroundColorAttributeName: UIColor.lightGrayColor()])
+        
+        var range: NSRange
+        if isCelcius {
+            range = NSRange(location: 4, length: 1)
+        } else {
+            range = NSRange(location: 0, length: 1)
+        }
+        
+        title.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range: range)
+        
+        view.weatherFormat.setAttributedTitle(title, forState: UIControlState.Normal)
+        
+        view.addButton.setImage(UIImage(named:"PlusIcon")?.withTint(.whiteColor()), forState: .Normal)
     }
 }

@@ -11,14 +11,16 @@ final class WeatherDetailFeature {
 }
 
 protocol WeatherDetailFeatureType: class {
-    func showFromViewController(fromViewController: UIViewController, weatherReport: WeatherReportEntity)
+    func showFromViewController(fromViewController: UIViewController, weatherReports: [WeatherReportEntity], atIndex index: Int)
 }
 
 // MARK: - WeatherDetailFeatureType
 extension WeatherDetailFeature: WeatherDetailFeatureType {
    
-    func showFromViewController(fromViewController: UIViewController, weatherReport: WeatherReportEntity) {
-        let controller = storyboard.instantiateViewControllerWithIdentifier("WeatherDetail") as! WeatherDetailViewController
-        fromViewController.showViewController(controller, sender: nil)
+    func showFromViewController(fromViewController: UIViewController, weatherReports: [WeatherReportEntity], atIndex index: Int) {
+        let controller = storyboard.instantiateViewControllerWithIdentifier("WeatherDetailPage") as! WeatherPageViewController
+        controller.weatherReports = weatherReports
+        controller.initialIndex = index
+        fromViewController.presentViewController(controller, animated: true, completion: nil)
     }
 }

@@ -13,25 +13,20 @@ final class WeatherPresenter {
 }
 
 protocol WeatherPresenterViewType: class {
-    func requestGreeting()
     func requestWeatherReports()
-    func requestDetailsForWeatherReport(weatherReport: WeatherReportEntity)
+    func requestDetailsForWeatherReports(weatherReports: [WeatherReportEntity], atIndex index: Int)
     func requestAddCity()
 }
 
 // MARK: - WeatherPresenterViewType
 extension WeatherPresenter: WeatherPresenterViewType {
     
-    func requestGreeting() {
-        interactor.fetchGreeting()
-    }
-    
     func requestWeatherReports() {
         interactor.fetchWeatherReports()
     }
     
-    func requestDetailsForWeatherReport(weatherReport: WeatherReportEntity) {
-        router.showDetailsForWeatherReport(weatherReport)
+    func requestDetailsForWeatherReports(weatherReports: [WeatherReportEntity], atIndex index: Int) {
+        router.showDetailsForWeatherReport(weatherReports, atIndex: index)
     }
     
     func requestAddCity() {
@@ -42,7 +37,6 @@ extension WeatherPresenter: WeatherPresenterViewType {
 protocol WeatherPresenterInteractorType: class {
     func successfullyFetchedWeatherReports(weatherReports: [WeatherReportEntity])
     func failedToFetchWeatherReports(error: ErrorType)
-    func successfullyFetchedGreeting(date: NSDate, message: String)
 }
 
 // MARK: - WeatherPresenterInteractorType
@@ -57,12 +51,6 @@ extension WeatherPresenter: WeatherPresenterInteractorType {
     func failedToFetchWeatherReports(error: ErrorType) {
         asyncMain {
             self.view?.displayError(error)
-        }
-    }
-    
-    func successfullyFetchedGreeting(date: NSDate, message: String) {
-        asyncMain {
-            self.view?.displayGreeting(date, message: message)
         }
     }
 }

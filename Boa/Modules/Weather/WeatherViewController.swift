@@ -1,25 +1,34 @@
 import UIKit
 
 
+
 final class WeatherViewController: UIViewController {
     
     var presenter: WeatherPresenterViewType!
     var styler: WeatherStyleType!
+    var isCelcius: Bool = false
     
     @IBOutlet weak var addBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     
     private var weatherReports = [WeatherReportEntity]()
-    
+    private var selectedIndexPath: NSIndexPath?
+
+    @IBOutlet weak var footerView: WeatherTableFooterView!
     override func viewDidLoad() {
         super.viewDidLoad()
         applyStyles()
         
+        navigationController?.navigationBarHidden = true
+        
         tableView.tableFooterView = UIView(frame: CGRectZero)
         tableView.separatorStyle = .None
         
-        presenter.requestGreeting()
         presenter.requestWeatherReports()
+        
+        tableView.tableFooterView = footerView
+        footerView.delegate = self
+        //(tableView.tableFooterView as! WeatherTableFooterView).delegate = self
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -34,7 +43,6 @@ final class WeatherViewController: UIViewController {
 protocol WeatherViewType: class {
     func displayWeatherReports(weatherReports: [WeatherReportEntity])
     func displayError(error: ErrorType)
-    func displayGreeting(date: NSDate, message: String)
 }
 
 // MARK: - WeatherViewType
@@ -71,12 +79,16 @@ extension WeatherViewController: UITableViewDataSource {
         
         // set content on cell
         cell.nameLabel.text = weatherReport.city.name
-        cell.temperatureLabel.text = "\(weatherReport.temparture)"
+        if isCelcius {
+            cell.temperatureLabel.text = String(format: "%.fº", weatherReport.temperature.degreesInCelsius)
+        } else {
+            cell.temperatureLabel.text = String(format: "%.fº", weatherReport.temperature.degreesInFahrenheit)
+        }
         
         // apply styles to cell
-        styler.styleGradientLayer(cell.gradientLayer, forTemparture: weatherReport.temparture)
-        styler.styleCityNameLabel(cell.nameLabel, forTemparture: weatherReport.temparture)
-        styler.styleTemparatureLabel(cell.temperatureLabel, forTemparture: weatherReport.temparture)
+        styler.styleGradientLayer(cell.gradientLayer, forTemparture: weatherReport.temperature)
+        styler.styleCityNameLabel(cell.nameLabel, forTemparture: weatherReport.temperature)
+        styler.styleTemparatureLabel(cell.temperatureLabel, forTemparture: weatherReport.temperature)
         
         return cell
     }
@@ -92,15 +104,53 @@ extension WeatherViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let weatherReport = weatherReports[indexPath.row]
-        presenter.requestDetailsForWeatherReport(weatherReport)
+        selectedIndexPath = indexPath
+
+        presenter.requestDetailsForWeatherReports(weatherReports, atIndex: indexPath.row)
+    }
+}
+
+// MARK: - Footer Delegate
+extension WeatherViewController: FooterViewDelegate {
+    func didPressAdd() {
+        presenter.requestAddCity()
+    }
+    
+    func didPressWeatherFormatButton() {
+
+        if isCelcius {
+            isCelcius = false
+        } else {
+            isCelcius = true
+        }
+        
+        styler.styleFooterView(footerView, isCelcius: isCelcius)
+        
+
+        tableView.reloadData()
+    }
+}
+
+
+// MARK: - Cell Animtions
+extension WeatherViewController : ExpandingTransitionPresentingViewController {
+    func expandingTransitionTargetViewForTransition(transition: ExpandingCellTransition) -> UIView! {
+        if let indexPath = selectedIndexPath {
+            return tableView.cellForRowAtIndexPath(indexPath)
+        }
+        else {
+            return nil
+        }
     }
 }
 
 // MARK: - Private
 private extension WeatherViewController {
-   func applyStyles() {
-        styler.styleNavigationBar(navigationController!.navigationBar)
-        styler.styleAddBarButtonItem(addBarButtonItem)
+    func applyStyles() {
+        
+        styler.styleFooterView(footerView, isCelcius: isCelcius)
+        
+
     }
 }
 

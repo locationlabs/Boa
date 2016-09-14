@@ -1,15 +1,10 @@
 import UIKit
 
-
-final class AddCityStyle {
-    
-}
-
-protocol AddCityStyleType: class {
+protocol AddCityStyleType {
     
 }
 
 // MARK: - AddCityStyleType
-extension AddCityStyle: AddCityStyleType {
+struct AddCityStyle: AddCityStyleType, BaseStyleType {
 
 }

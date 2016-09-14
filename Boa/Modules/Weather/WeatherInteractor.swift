@@ -15,29 +15,12 @@ final class WeatherInteractor {
 
 protocol WeatherInteractorType: class {
     
-    func fetchGreeting()
     func fetchWeatherReports()
 }
 
 // MARK: - WeatherInteractorType
 extension WeatherInteractor: WeatherInteractorType {
 
-    func fetchGreeting() {
-        let date = NSDate()
-        let calendar = NSCalendar.currentCalendar()
-        let hour = calendar.component(.Hour, fromDate: date)
-
-        switch hour {
-        case 0..<12:
-            presenter?.successfullyFetchedGreeting(date, message: "Good Monring")
-        case 12..<18:
-            presenter?.successfullyFetchedGreeting(date, message: "Good Afternoon")
-        default:
-            presenter?.successfullyFetchedGreeting(date, message: "Good Evening")
-        }
-        
-    }
-    
     func fetchWeatherReports() {
         dataManager.fetchCities().thenInBackground { cities in
             return when(cities.map { self.dataManager.fetchWeatherReportForCity($0) })

@@ -1,15 +1,15 @@
 import UIKit
 
-
-final class WeatherDetailStyle {
-    
+protocol WeatherDetailStyleType {
+    func styleGradientView(view: UIView, withTemperature temperature: Temperature)
 }
 
-protocol WeatherDetailStyleType: class {
-    
-}
-
-// MARK: - WeatherDetailStyleType
-extension WeatherDetailStyle: WeatherDetailStyleType {
-
+// MARK: - EventDetailStyleType
+struct WeatherDetailStyle: WeatherDetailStyleType, BaseStyleType {
+    func styleGradientView(view: UIView, withTemperature temperature: Temperature) {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = view.frame
+        gradient.colors = [temperature.startColor.CGColor, temperature.endColor.CGColor]
+        view.layer.insertSublayer(gradient, atIndex: 0)
+    }
 }

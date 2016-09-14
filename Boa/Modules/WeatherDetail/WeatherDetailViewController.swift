@@ -3,28 +3,23 @@ import UIKit
 
 final class WeatherDetailViewController: UIViewController {
     
-    var presenter: WeatherDetailPresenterViewType!
     var styler: WeatherDetailStyleType!
+    var weatherReport: WeatherReportEntity!
+    
+    @IBOutlet weak var weatherTitleLabel: UILabel!
+    @IBOutlet weak var temperatureLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        weatherTitleLabel.text = weatherReport.city.name
+        temperatureLabel.text = String(weatherReport.temperature.degreesInFahrenheit)
         applyStyles()
     }
 }
 
-protocol WeatherDetailViewType: class {
-    
-}
-
-// MARK: - WeatherDetailViewType
-extension WeatherDetailViewController: WeatherDetailViewType {
-   
-}
-
 // MARK: - Private
 private extension WeatherDetailViewController {
-   func applyStyles() {
-        
+    func applyStyles() {
+        styler.styleGradientView(view, withTemperature: weatherReport.temperature)
     }
 }
-

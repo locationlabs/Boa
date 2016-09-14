@@ -5,20 +5,22 @@ final class WeatherDetailPresenter {
     
     var router: WeatherDetailRouterType!
     var interactor: WeatherDetailInteractorType!
-    weak var view: WeatherDetailViewType?
+    weak var view: WeatherPageViewType?
     
-    init(view: WeatherDetailViewType) {
+    init(view: WeatherPageViewType) {
         self.view = view
     }
 }
 
 protocol WeatherDetailPresenterViewType: class {
-
+    func requestListView()
 }
 
 // MARK: - WeatherDetailPresenterViewType
 extension WeatherDetailPresenter: WeatherDetailPresenterViewType {
-
+    func requestListView() {
+        router.dismiss()
+    }
 }
 
 protocol WeatherDetailPresenterInteractorType: class {

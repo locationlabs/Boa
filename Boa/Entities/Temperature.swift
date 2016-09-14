@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 
-enum Temparture {
+enum Temperature {
     case Fahrenheit(degrees: Double)
     case Celsius(degrees: Double)
     
@@ -26,7 +26,7 @@ enum Temparture {
 }
 
 // MARK: - Colors
-extension Temparture {
+extension Temperature {
     var startColor: UIColor {
         
         if degreesInFahrenheit >= 100 {
@@ -67,7 +67,7 @@ extension Temparture {
 }
 
 // MARK: - CustomStringConvertible
-extension Temparture: CustomStringConvertible {
+extension Temperature: CustomStringConvertible {
     var description: String {
         switch self {
         case .Fahrenheit(let degrees):

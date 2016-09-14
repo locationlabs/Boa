@@ -2,7 +2,7 @@ import UIKit
 import Cobra
 
 
-final class WeatherDetailRouter {
+final class EditCityRouter {
     
     weak var controller: UIViewController!
     
@@ -11,12 +11,13 @@ final class WeatherDetailRouter {
     }
 }
 
-protocol WeatherDetailRouterType: class {
+protocol EditCityRouterType: class {
     func dismiss()
 }
 
-// MARK: - WeatherDetailRouterType
-extension WeatherDetailRouter: WeatherDetailRouterType {    
+// MARK: - EditCityRouterType
+extension EditCityRouter: EditCityRouterType {
+    
     func dismiss() {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
