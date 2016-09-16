@@ -117,7 +117,6 @@ extension WeatherPageViewController {
 
 extension WeatherPageViewController {
     private func applyStyles() {
-        pageControl.pageIndicatorTintColor = UIColor(rgb: "#DBDBDB")
-        pageControl.currentPageIndicatorTintColor = .whiteColor()
+        styler.stylePageControl(pageControl)
     }
 }

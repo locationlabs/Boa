@@ -165,13 +165,6 @@
 			path = AddCity;
 			sourceTree = "<group>";
 		};
-		4D6A42B01D89FB2600276650 /* WeatherDetailPageView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = WeatherDetailPageView;
-			sourceTree = "<group>";
-		};
 		802AAF3C46C19824AB9D8F37 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,7 +216,6 @@
 		903EDF661CC5654B00AF813C /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				4D6A42B01D89FB2600276650 /* WeatherDetailPageView */,
 				4D48FC421D870823001ADC56 /* WeatherDetail */,
 				4D513D361D80C77C00F6E499 /* AddCity */,
 				903EDFA61CC6E77D00AF813C /* Weather */,

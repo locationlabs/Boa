@@ -8,17 +8,11 @@ protocol ExpandingTransitionPresentingViewController {
     func expandingTransitionTargetViewForTransition(transition: ExpandingCellTransition) -> UIView!
 }
 
-@objc
-protocol ExpandingTransitionPresentedViewController {
-    func expandingTransition(transition: ExpandingCellTransition, navigationBarSnapshot: UIView)
-}
-
 enum TransitionType {
     case None
     case Presenting
     case Dismissing
 }
-
 
 enum TransitionState {
     case Initial
@@ -30,13 +24,8 @@ class ExpandingCellTransition: NSObject, UIViewControllerAnimatedTransitioning, 
     var presentingController: UIViewController!
     var presentedController: UIViewController!
     
-    var targetSnapshot: UIView!
-    var targetContainer: UIView!
-    
     var topRegionSnapshot: UIView!
     var bottomRegionSnapshot: UIView!
-    var navigationBarSnapshot: UIView!
-    
     
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return kExpandingCellTransitionDuration
@@ -81,25 +70,23 @@ class ExpandingCellTransition: NSObject, UIViewControllerAnimatedTransitioning, 
         containerView.addSubview(topRegionSnapshot)
         containerView.addSubview(bottomRegionSnapshot)
         
-        
         let width = backgroundViewController.view.bounds.width
         let height = backgroundViewController.view.bounds.height
         
         let preTransition: TransitionState = (type == .Presenting ? .Initial : .Final)
         let postTransition: TransitionState = (type == .Presenting ? .Final : .Initial)
         
-        configureViewsToState(preTransition, width: width, height: height, targetFrame: targetFrame, fullFrame: foregroundViewController.view.frame, foregroundView: foregroundViewController.view)
+        configureViewsToState(preTransition, width: width, height: height, targetFrame: targetFrame, foregroundView: foregroundViewController.view)
         
         
         // perform animation
         backgroundViewController.view.hidden = true
         UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             [self]
-            self.configureViewsToState(postTransition, width: width, height: height, targetFrame: targetFrame, fullFrame: foregroundViewController.view.frame, foregroundView: foregroundViewController.view)
+            self.configureViewsToState(postTransition, width: width, height: height, targetFrame: targetFrame, foregroundView: foregroundViewController.view)
             }, completion: {
                 (finished) in
                 [self]
-                self.targetContainer.removeFromSuperview()
                 self.topRegionSnapshot.removeFromSuperview()
                 self.bottomRegionSnapshot.removeFromSuperview()
                 
@@ -144,25 +131,17 @@ class ExpandingCellTransition: NSObject, UIViewControllerAnimatedTransitioning, 
         
         // create bottom region snapshot
         bottomRegionSnapshot = view.resizableSnapshotViewFromRect(CGRect(x: 0, y: targetFrame.maxY, width: width, height: height-targetFrame.maxY), afterScreenUpdates: false, withCapInsets: UIEdgeInsetsZero)
-        
-        // create target view snapshot
-        targetSnapshot = targetView.snapshotViewAfterScreenUpdates(false)
-        targetContainer = UIView(frame: targetFrame)
-        targetContainer.clipsToBounds = true
-        targetContainer.addSubview(targetSnapshot)
     }
     
-    func configureViewsToState(state: TransitionState, width: CGFloat, height: CGFloat, targetFrame: CGRect, fullFrame: CGRect, foregroundView: UIView) {
+    func configureViewsToState(state: TransitionState, width: CGFloat, height: CGFloat, targetFrame: CGRect, foregroundView: UIView) {
         switch state {
         case .Initial:
             topRegionSnapshot.frame = CGRect(x: 0, y: 0, width: width, height: targetFrame.maxY)
             bottomRegionSnapshot.frame = CGRect(x: 0, y: targetFrame.maxY, width: width, height: height-targetFrame.maxY)
-            targetContainer.frame = targetFrame
             
         case .Final:
             topRegionSnapshot.frame = CGRect(x: 0, y: -targetFrame.maxY, width: width, height: targetFrame.maxY)
             bottomRegionSnapshot.frame = CGRect(x: 0, y: height, width: width, height: height-targetFrame.maxY)
-            targetContainer.frame = fullFrame
         }
     }
 }
