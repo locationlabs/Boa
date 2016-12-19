@@ -6,9 +6,9 @@ import Medusa
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow? = UIWindow()
-
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        logDebug("Application starting...")
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+        logDebug(message: "Application starting...")
         
         //
         // STEP 1
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // STEP 5
         // Route to our first feature in our application window
         //
-        try! App.sharedInstance.feature(WeatherFeatureType.self).showInWindow(window!)
+        try! App.sharedInstance.feature(WeatherFeatureType.self).showInWindow(window: window!)
         return true
     }
 }
@@ -58,6 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
  - parameter message: the message to load
  */
-func logDebug(@autoclosure message: () -> String) {
+func logDebug( message: @autoclosure () -> String) {
     NSLog("[Boa] \(message())")
 }

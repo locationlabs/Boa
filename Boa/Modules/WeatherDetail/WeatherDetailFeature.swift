@@ -3,7 +3,7 @@ import UIKit
 
 final class WeatherDetailFeature {
     
-    private let storyboard: UIStoryboard
+    let storyboard: UIStoryboard
     
     init(storyboard: UIStoryboard) {
         self.storyboard = storyboard
@@ -18,9 +18,9 @@ protocol WeatherDetailFeatureType: class {
 extension WeatherDetailFeature: WeatherDetailFeatureType {
    
     func showFromViewController(fromViewController: UIViewController, weatherReports: [WeatherReportEntity], atIndex index: Int) {
-        let controller = storyboard.instantiateViewControllerWithIdentifier("WeatherDetailPage") as! WeatherPageViewController
+        let controller = storyboard.instantiateViewController(withIdentifier: "WeatherDetailPage") as! WeatherPageViewController
         controller.weatherReports = weatherReports
         controller.initialIndex = index
-        fromViewController.presentViewController(controller, animated: true, completion: nil)
+        fromViewController.present(controller, animated: true, completion: nil)
     }
 }

@@ -1,5 +1,6 @@
 import UIKit
 import Swinject
+import SwinjectStoryboard
 import Cobra
 
 
@@ -29,7 +30,7 @@ extension AddCityAssembly: AssemblyType {
 
         // storyboard
         container.register(SwinjectStoryboard.self, name: "AddCity") { _ in
-            return SwinjectStoryboard.create(name: "AddCity", bundle: NSBundle(forClass: AddCityAssembly.self), container: container)
+            return SwinjectStoryboard.create(name: "AddCity", bundle: Bundle(for: AddCityAssembly.self), container: container)
         }
         
         // view controller

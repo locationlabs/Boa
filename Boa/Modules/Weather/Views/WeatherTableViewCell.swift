@@ -10,7 +10,7 @@ final class WeatherTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        layer.insertSublayer(gradientLayer, atIndex: 0)
+        layer.insertSublayer(gradientLayer, at: 0)
 //        gradient.frame = imageView.bounds
 //        gradient.colors = colorStyle.primaryGradientColors().map { $0.CGColor }
 //        gradient.masksToBounds = true

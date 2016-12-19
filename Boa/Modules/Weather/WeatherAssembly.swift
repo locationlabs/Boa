@@ -1,5 +1,6 @@
 import UIKit
 import Swinject
+import SwinjectStoryboard
 import Cobra
 
 
@@ -29,7 +30,7 @@ extension WeatherAssembly: AssemblyType {
 
         // storyboard
         container.register(SwinjectStoryboard.self, name: "Weather") { _ in
-            return SwinjectStoryboard.create(name: "Weather", bundle: NSBundle(forClass: WeatherAssembly.self), container: container)
+            return SwinjectStoryboard.create(name: "Weather", bundle: Bundle(for: WeatherAssembly.self), container: container)
         }
         
         // view controller
