@@ -11,7 +11,7 @@ target 'Boa' do
    pod 'Swinject', '~> 2.0.0-beta.2'
    pod 'SwinjectStoryboard', '1.0.0-beta.2'
    pod 'Cobra', :path => '../Cobra'
-   pod 'Medusa', :path => '../Medusa'
+   pod 'Gorgon', :path => '../Medusa'
    pod 'PromiseKit/CorePromise', '~> 4.0'
 end
 
