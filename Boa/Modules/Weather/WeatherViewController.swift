@@ -11,18 +11,18 @@ final class WeatherViewController: UIViewController {
     @IBOutlet weak var addBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     
-    private var weatherReports = [WeatherReportEntity]()
-    private var selectedIndexPath: NSIndexPath?
+    var weatherReports = [WeatherReportEntity]()
+    var selectedIndexPath: NSIndexPath?
 
     @IBOutlet weak var footerView: WeatherTableFooterView!
     override func viewDidLoad() {
         super.viewDidLoad()
         applyStyles()
         
-        navigationController?.navigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
         
-        tableView.tableFooterView = UIView(frame: CGRectZero)
-        tableView.separatorStyle = .None
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.separatorStyle = .none
         
         presenter.requestWeatherReports()
         
@@ -31,8 +31,8 @@ final class WeatherViewController: UIViewController {
         //(tableView.tableFooterView as! WeatherTableFooterView).delegate = self
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     @IBAction func doAdd(sender: AnyObject) {
@@ -42,7 +42,7 @@ final class WeatherViewController: UIViewController {
 
 protocol WeatherViewType: class {
     func displayWeatherReports(weatherReports: [WeatherReportEntity])
-    func displayError(error: ErrorType)
+    func displayError(error: Error)
 }
 
 // MARK: - WeatherViewType
@@ -53,8 +53,8 @@ extension WeatherViewController: WeatherViewType {
         tableView.reloadData()
     }
     
-    func displayError(error: ErrorType) {
-        logDebug("TODO")
+    func displayError(error: Error) {
+        logDebug(message: "TODO")
     }
     
     func displayGreeting(date: NSDate, message: String) {
@@ -64,18 +64,18 @@ extension WeatherViewController: WeatherViewType {
 
 // MARK: - UITableViewDataSource
 extension WeatherViewController: UITableViewDataSource {
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return weatherReports.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let weatherReport = weatherReports[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("cityCell") as! WeatherTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cityCell") as! WeatherTableViewCell
         
         // set content on cell
         cell.nameLabel.text = weatherReport.city.name
@@ -86,9 +86,9 @@ extension WeatherViewController: UITableViewDataSource {
         }
         
         // apply styles to cell
-        styler.styleGradientLayer(cell.gradientLayer, forTemparture: weatherReport.temperature)
-        styler.styleCityNameLabel(cell.nameLabel, forTemparture: weatherReport.temperature)
-        styler.styleTemparatureLabel(cell.temperatureLabel, forTemparture: weatherReport.temperature)
+        styler.styleGradientLayer(gradientLayer: cell.gradientLayer, forTemparture: weatherReport.temperature)
+        styler.styleCityNameLabel(label: cell.nameLabel, forTemparture: weatherReport.temperature)
+        styler.styleTemparatureLabel(label: cell.temperatureLabel, forTemparture: weatherReport.temperature)
         
         return cell
     }
@@ -96,17 +96,15 @@ extension WeatherViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension WeatherViewController: UITableViewDelegate {
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let weatherReport = weatherReports[indexPath.row]
-        selectedIndexPath = indexPath
-
-        presenter.requestDetailsForWeatherReports(weatherReports, atIndex: indexPath.row)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+        selectedIndexPath = indexPath as NSIndexPath?
+        
+        presenter.requestDetailsForWeatherReports(weatherReports: weatherReports, atIndex: indexPath.row)
     }
 }
 
@@ -124,7 +122,7 @@ extension WeatherViewController: FooterViewDelegate {
             isCelcius = true
         }
         
-        styler.styleFooterView(footerView, isCelcius: isCelcius)
+        styler.styleFooterView(view: footerView, isCelcius: isCelcius)
         
 
         tableView.reloadData()
@@ -136,7 +134,7 @@ extension WeatherViewController: FooterViewDelegate {
 extension WeatherViewController : ExpandingTransitionPresentingViewController {
     func expandingTransitionTargetViewForTransition(transition: ExpandingCellTransition) -> UIView! {
         if let indexPath = selectedIndexPath {
-            return tableView.cellForRowAtIndexPath(indexPath)
+            return tableView.cellForRow(at: indexPath as IndexPath)
         }
         else {
             return nil
@@ -148,7 +146,7 @@ extension WeatherViewController : ExpandingTransitionPresentingViewController {
 private extension WeatherViewController {
     func applyStyles() {
         
-        styler.styleFooterView(footerView, isCelcius: isCelcius)
+        styler.styleFooterView(view: footerView, isCelcius: isCelcius)
         
 
     }

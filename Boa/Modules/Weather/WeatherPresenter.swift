@@ -26,7 +26,7 @@ extension WeatherPresenter: WeatherPresenterViewType {
     }
     
     func requestDetailsForWeatherReports(weatherReports: [WeatherReportEntity], atIndex index: Int) {
-        router.showDetailsForWeatherReport(weatherReports, atIndex: index)
+        router.showDetailsForWeatherReport(weatherReports: weatherReports, atIndex: index)
     }
     
     func requestAddCity() {
@@ -36,7 +36,7 @@ extension WeatherPresenter: WeatherPresenterViewType {
 
 protocol WeatherPresenterInteractorType: class {
     func successfullyFetchedWeatherReports(weatherReports: [WeatherReportEntity])
-    func failedToFetchWeatherReports(error: ErrorType)
+    func failedToFetchWeatherReports(error: Error)
 }
 
 // MARK: - WeatherPresenterInteractorType
@@ -44,13 +44,13 @@ extension WeatherPresenter: WeatherPresenterInteractorType {
 
     func successfullyFetchedWeatherReports(weatherReports: [WeatherReportEntity]) {
         asyncMain {
-            self.view?.displayWeatherReports(weatherReports)
+            self.view?.displayWeatherReports(weatherReports: weatherReports)
         }
     }
     
-    func failedToFetchWeatherReports(error: ErrorType) {
+    func failedToFetchWeatherReports(error: Error) {
         asyncMain {
-            self.view?.displayError(error)
+            self.view?.displayError(error: error)
         }
     }
 }

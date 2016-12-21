@@ -15,8 +15,8 @@ struct WeatherStyle: WeatherStyleType, BaseStyleType {
 
     func styleGradientLayer(gradientLayer: CAGradientLayer, forTemparture temperature: Temperature) {
         gradientLayer.colors =  [
-            temperature.startColor.CGColor,
-            temperature.endColor.CGColor
+            temperature.startColor.cgColor,
+            temperature.endColor.cgColor
         ]
     }
     
@@ -31,25 +31,25 @@ struct WeatherStyle: WeatherStyleType, BaseStyleType {
     }
 
     func styleNavigationBar(navigationBar: UINavigationBar) {
-        navigationBar.barTintColor = .blackColor()
-        navigationBar.tintColor = .whiteColor()
-        navigationBar.translucent = false
-        navigationBar.barStyle = .Black
+        navigationBar.barTintColor = .black
+        navigationBar.tintColor = .white
+        navigationBar.isTranslucent = false
+        navigationBar.barStyle = .black
         navigationBar.titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSForegroundColorAttributeName: UIColor.white,
             NSFontAttributeName: UIFont(name: "AvenirNext-Regular", size: 20.0)!
         ]
     }
     
     func styleAddBarButtonItem(barButtonItem: UIBarButtonItem) {
-        barButtonItem.tintColor = .whiteColor()
+        barButtonItem.tintColor = .white
         barButtonItem.setTitleTextAttributes([
             NSFontAttributeName: UIFont(name: "AvenirNext-Regular", size: 17.0)!
-        ], forState: .Normal)
+            ], for: .normal)
     }
     
     func styleFooterView(view: WeatherTableFooterView, isCelcius: Bool) {
-        let title = NSMutableAttributedString(string: "f / c", attributes: [NSForegroundColorAttributeName: UIColor.lightGrayColor()])
+        let title = NSMutableAttributedString(string: "f / c", attributes: [NSForegroundColorAttributeName: UIColor.lightGray])
         
         var range: NSRange
         if isCelcius {
@@ -58,10 +58,10 @@ struct WeatherStyle: WeatherStyleType, BaseStyleType {
             range = NSRange(location: 0, length: 1)
         }
         
-        title.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range: range)
+        title.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range: range)
         
-        view.weatherFormat.setAttributedTitle(title, forState: UIControlState.Normal)
+        view.weatherFormat.setAttributedTitle(title, for: UIControlState.normal)
         
-        view.addButton.setImage(UIImage(named:"PlusIcon")?.withTint(.whiteColor()), forState: .Normal)
+        view.addButton.setImage(UIImage(named:"PlusIcon")?.withTint(color: .white), for: .normal)
     }
 }

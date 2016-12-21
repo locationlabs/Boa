@@ -13,10 +13,10 @@ final class AppStateDaemon {
 extension AppStateDaemon: ApplicationDaemonType {
     
     func applicationDidEnterBackground(application: UIApplication) {
-        logDebug("AppStateDaemon did enter background")
+        logDebug(message: "AppStateDaemon did enter background")
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        logDebug("AppStateDaemon did become active")
+        logDebug(message: "AppStateDaemon did become active")
     }
 }

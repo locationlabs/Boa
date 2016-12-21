@@ -3,7 +3,7 @@ import UIKit
 
 final class AddCityFeature {
     
-    private let storyboard: UIStoryboard
+    let storyboard: UIStoryboard
     
     init(storyboard: UIStoryboard) {
         self.storyboard = storyboard
@@ -18,7 +18,7 @@ protocol AddCityFeatureType: class {
 extension AddCityFeature: AddCityFeatureType {
    
     func showFromViewController(fromViewController: UIViewController) {
-        let controller = storyboard.instantiateViewControllerWithIdentifier("AddCity") as! AddCityViewController
-        fromViewController.presentViewController(UINavigationController(rootViewController: controller), animated: true, completion: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "AddCity") as! AddCityViewController
+        fromViewController.present(UINavigationController(rootViewController: controller), animated: true, completion: nil)
     }
 }

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Add City View Controller-->
@@ -14,19 +18,19 @@
                         <viewControllerLayoutGuide type="bottom" id="NA0-hr-6yS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="XBh-ED-CD9">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="2ie-cV-An3">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="8nn-8L-zTi">
                             <connections>
-                                <action selector="doCancel:" destination="Mda-iA-asj" id="OSt-AG-iCF"/>
+                                <action selector="doCancelWithSender:" destination="Mda-iA-asj" id="3u6-UX-b8R"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Add" id="CFH-f4-fj5">
                             <connections>
-                                <action selector="doAdd:" destination="Mda-iA-asj" id="hf3-ng-2vl"/>
+                                <action selector="doAddWithSender:" destination="Mda-iA-asj" id="fbT-0m-Rxb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -35,8 +39,8 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="swinjectRegistrationName" value="AddCity"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <outlet property="addBarButtonItem" destination="CFH-f4-fj5" id="W0T-YT-sIp"/>
-                        <outlet property="cancelBarButtonItem" destination="8nn-8L-zTi" id="nY8-P1-izZ"/>
+                        <outlet property="addBarButtonItem" destination="CFH-f4-fj5" id="y6o-Cb-Ytz"/>
+                        <outlet property="cancelBarButtonItem" destination="8nn-8L-zTi" id="uub-Eg-AoU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qUW-2N-ndm" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -18,6 +18,6 @@ protocol WeatherDetailRouterType: class {
 // MARK: - WeatherDetailRouterType
 extension WeatherDetailRouter: WeatherDetailRouterType {    
     func dismiss() {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
 }

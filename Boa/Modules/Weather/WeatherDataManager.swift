@@ -25,6 +25,6 @@ extension WeatherDataManager: WeatherDataManagerType {
     }
     
     func fetchWeatherReportForCity(city: CityEntity) -> Promise<WeatherReportEntity> {
-        return weatherService.fetchWeatherReportForCity(city)
+        return weatherService.fetchWeatherReportForCity(city: city)
     }
 }

@@ -52,23 +52,23 @@ public extension UIColor {
         var blue: CGFloat = 0.0
         
         if rgb.hasPrefix("#") {
-            let index = rgb.startIndex.advancedBy(1)
-            let hex = rgb.substringFromIndex(index)
-            let scanner = NSScanner(string: hex)
+            let index = rgb.index(rgb.startIndex, offsetBy:1)
+            let hex = rgb.substring(from: index)
+            let scanner = Scanner(string: hex)
             var hexValue: CUnsignedLongLong = 0
-            if scanner.scanHexLongLong(&hexValue) {
+            if scanner.scanHexInt64(&hexValue) {
                 if hex.characters.count == 6 {
                     red = CGFloat((hexValue & 0xFF0000) >> 16)
                     green = CGFloat((hexValue & 0x00FF00) >> 8)
                     blue = CGFloat(hexValue & 0x0000FF)
                 } else {
-                    throwException("Invalid rgb string, length should be 7")
+                    throwException(description: "Invalid rgb string, length should be 7")
                 }
             } else {
-                throwException("Scan hex error")
+                throwException(description: "Scan hex error")
             }
         } else {
-            throwException("Invalid RGB string, missing # as prefix")
+            throwException(description: "Invalid RGB string, missing # as prefix")
         }
         self.init(red: red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: CGFloat(a!))
     }
@@ -97,5 +97,5 @@ public extension UIColor {
  - parameter description: the error description to throw
  */
 private func throwException(description: String) {
-    NSException.raise("InvalidColor", format: description, arguments: getVaList([]))
+    NSException.raise(NSExceptionName(rawValue: "InvalidColor"), format: description, arguments: getVaList([]))
 }

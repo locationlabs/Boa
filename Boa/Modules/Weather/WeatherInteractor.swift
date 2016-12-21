@@ -22,12 +22,14 @@ protocol WeatherInteractorType: class {
 extension WeatherInteractor: WeatherInteractorType {
 
     func fetchWeatherReports() {
-        dataManager.fetchCities().thenInBackground { cities in
-            return when(cities.map { self.dataManager.fetchWeatherReportForCity($0) })
-        }.thenInBackground { weatherReports in
-            self.presenter?.successfullyFetchedWeatherReports(weatherReports)
-        }.error { error in
-            self.presenter?.failedToFetchWeatherReports(error)
+        firstly {
+            dataManager.fetchCities()
+        }.then { cities in
+            when(fulfilled:cities.map { self.dataManager.fetchWeatherReportForCity(city: $0) })
+        }.then { weatherReports in
+            self.presenter?.successfullyFetchedWeatherReports(weatherReports: weatherReports)
+        }.catch { error in
+            self.presenter?.failedToFetchWeatherReports(error: error)
         }
     }
 }

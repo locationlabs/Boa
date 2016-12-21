@@ -19,6 +19,6 @@ protocol AddCityRouterType: class {
 extension AddCityRouter: AddCityRouterType {
     
     func dismiss() {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
 }
