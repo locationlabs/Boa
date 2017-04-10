@@ -3,7 +3,7 @@ import UIKit
 
 extension UIColor {
 
-    static func startColorForTemperature(temperature: Temperature) -> UIColor {
+    static func startColorForTemperature(_ temperature: Temperature) -> UIColor {
         
         if temperature.degreesInFahrenheit >= 100 {
             return UIColor(red: 181/255, green: 33/255, blue: 2/255, alpha: 1)
@@ -18,7 +18,7 @@ extension UIColor {
         }
     }
     
-    static func endColorForTemperature(temperature: Temperature) -> UIColor {
+    static func endColorForTemperature(_ temperature: Temperature) -> UIColor {
         
         if temperature.degreesInFahrenheit >= 100 {
             return UIColor(red: 245/255, green: 149/255, blue: 33/255, alpha: 1)
@@ -52,11 +52,11 @@ public extension UIColor {
         var blue: CGFloat = 0.0
         
         if rgb.hasPrefix("#") {
-            let index = rgb.startIndex.advancedBy(1)
-            let hex = rgb.substringFromIndex(index)
-            let scanner = NSScanner(string: hex)
+            let index = rgb.characters.index(rgb.startIndex, offsetBy: 1)
+            let hex = rgb.substring(from: index)
+            let scanner = Scanner(string: hex)
             var hexValue: CUnsignedLongLong = 0
-            if scanner.scanHexLongLong(&hexValue) {
+            if scanner.scanHexInt64(&hexValue) {
                 if hex.characters.count == 6 {
                     red = CGFloat((hexValue & 0xFF0000) >> 16)
                     green = CGFloat((hexValue & 0x00FF00) >> 8)
@@ -81,7 +81,7 @@ public extension UIColor {
      
      - returns: a new color with the given alpha
      */
-    public func withAlpha(alpha: Float) -> UIColor {
+    public func withAlpha(_ alpha: Float) -> UIColor {
         var red: CGFloat = 0.0
         var green: CGFloat = 0.0
         var blue: CGFloat = 0.0
@@ -96,6 +96,6 @@ public extension UIColor {
  
  - parameter description: the error description to throw
  */
-private func throwException(description: String) {
-    NSException.raise("InvalidColor", format: description, arguments: getVaList([]))
+private func throwException(_ description: String) {
+    NSException.raise(NSExceptionName(rawValue: "InvalidColor"), format: description, arguments: getVaList([]))
 }

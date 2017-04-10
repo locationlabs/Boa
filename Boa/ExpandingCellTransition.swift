@@ -1,47 +1,47 @@
 import Foundation
 import UIKit
 
-private let kExpandingCellTransitionDuration: NSTimeInterval = 0.4
+private let kExpandingCellTransitionDuration: TimeInterval = 0.4
 
 @objc
 protocol ExpandingTransitionPresentingViewController {
-    func expandingTransitionTargetViewForTransition(transition: ExpandingCellTransition) -> UIView!
+    func expandingTransitionTargetViewForTransition(_ transition: ExpandingCellTransition) -> UIView!
 }
 
 enum TransitionType {
-    case None
-    case Presenting
-    case Dismissing
+    case none
+    case presenting
+    case dismissing
 }
 
 enum TransitionState {
-    case Initial
-    case Final
+    case initial
+    case final
 }
 
 class ExpandingCellTransition: NSObject, UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate {
-    var type: TransitionType = .None
+    var type: TransitionType = .none
     var presentingController: UIViewController!
     var presentedController: UIViewController!
     
     var topRegionSnapshot: UIView!
     var bottomRegionSnapshot: UIView!
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return kExpandingCellTransitionDuration
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
-        let duration = transitionDuration(transitionContext)
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let containerView = transitionContext.containerView()!
+        let duration = transitionDuration(using: transitionContext)
+        let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!
+        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!
+        let containerView = transitionContext.containerView
         
         var foregroundViewController = toViewController
         var backgroundViewController = fromViewController
         
-        if type == .Dismissing {
+        if type == .dismissing {
             foregroundViewController = fromViewController
             backgroundViewController = toViewController
         }
@@ -62,8 +62,8 @@ class ExpandingCellTransition: NSObject, UIViewControllerAnimatedTransitioning, 
         
         
         // setup animation
-        let targetFrame = backgroundViewController.view.convertRect(targetView.frame, fromView: targetView.superview)
-        if type == .Presenting {
+        let targetFrame = backgroundViewController.view.convert(targetView.frame, from: targetView.superview)
+        if type == .presenting {
             sliceSnapshotsInBackgroundViewController(backgroundViewController, targetFrame: targetFrame, targetView: targetView)
         }
         
@@ -73,15 +73,15 @@ class ExpandingCellTransition: NSObject, UIViewControllerAnimatedTransitioning, 
         let width = backgroundViewController.view.bounds.width
         let height = backgroundViewController.view.bounds.height
         
-        let preTransition: TransitionState = (type == .Presenting ? .Initial : .Final)
-        let postTransition: TransitionState = (type == .Presenting ? .Final : .Initial)
+        let preTransition: TransitionState = (type == .presenting ? .initial : .final)
+        let postTransition: TransitionState = (type == .presenting ? .final : .initial)
         
         configureViewsToState(preTransition, width: width, height: height, targetFrame: targetFrame, foregroundView: foregroundViewController.view)
         
         
         // perform animation
-        backgroundViewController.view.hidden = true
-        UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: { () -> Void in
+        backgroundViewController.view.isHidden = true
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: { () -> Void in
             [self]
             self.configureViewsToState(postTransition, width: width, height: height, targetFrame: targetFrame, foregroundView: foregroundViewController.view)
             }, completion: {
@@ -90,56 +90,56 @@ class ExpandingCellTransition: NSObject, UIViewControllerAnimatedTransitioning, 
                 self.topRegionSnapshot.removeFromSuperview()
                 self.bottomRegionSnapshot.removeFromSuperview()
                 
-                backgroundViewController.view.hidden = false
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                backgroundViewController.view.isHidden = false
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         })
     }
     
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         presentingController = presenting
         if let navController = presentingController as? UINavigationController {
             presentingController = navController.topViewController
         }
         
         if presentingController is ExpandingTransitionPresentingViewController {
-            type = .Presenting
+            type = .presenting
             return self
         } else {
-            type = .None
+            type = .none
             return nil
         }
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if presentingController is ExpandingTransitionPresentingViewController {
-            type = .Dismissing
+            type = .dismissing
             return self
         } else {
-            type = .None
+            type = .none
             return nil
         }
     }
     
-    func sliceSnapshotsInBackgroundViewController(backgroundViewController: UIViewController, targetFrame: CGRect, targetView: UIView) {
-        let view = backgroundViewController.view
+    func sliceSnapshotsInBackgroundViewController(_ backgroundViewController: UIViewController, targetFrame: CGRect, targetView: UIView) {
+        let view = backgroundViewController.view!
         let width = view.bounds.width
         let height = view.bounds.height
         
         // create top region snapshot
-        topRegionSnapshot = view.resizableSnapshotViewFromRect(CGRect(x: 0, y: 0, width: width, height: targetFrame.maxY), afterScreenUpdates: false, withCapInsets: UIEdgeInsetsZero)
+        topRegionSnapshot = view.resizableSnapshotView(from: CGRect(x: 0, y: 0, width: width, height: targetFrame.maxY), afterScreenUpdates: false, withCapInsets: UIEdgeInsets.zero)
         
         // create bottom region snapshot
-        bottomRegionSnapshot = view.resizableSnapshotViewFromRect(CGRect(x: 0, y: targetFrame.maxY, width: width, height: height-targetFrame.maxY), afterScreenUpdates: false, withCapInsets: UIEdgeInsetsZero)
+        bottomRegionSnapshot = view.resizableSnapshotView(from: CGRect(x: 0, y: targetFrame.maxY, width: width, height: height-targetFrame.maxY), afterScreenUpdates: false, withCapInsets: UIEdgeInsets.zero)
     }
     
-    func configureViewsToState(state: TransitionState, width: CGFloat, height: CGFloat, targetFrame: CGRect, foregroundView: UIView) {
+    func configureViewsToState(_ state: TransitionState, width: CGFloat, height: CGFloat, targetFrame: CGRect, foregroundView: UIView) {
         switch state {
-        case .Initial:
+        case .initial:
             topRegionSnapshot.frame = CGRect(x: 0, y: 0, width: width, height: targetFrame.maxY)
             bottomRegionSnapshot.frame = CGRect(x: 0, y: targetFrame.maxY, width: width, height: height-targetFrame.maxY)
             
-        case .Final:
+        case .final:
             topRegionSnapshot.frame = CGRect(x: 0, y: -targetFrame.maxY, width: width, height: targetFrame.maxY)
             bottomRegionSnapshot.frame = CGRect(x: 0, y: height, width: width, height: height-targetFrame.maxY)
         }

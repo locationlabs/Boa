@@ -1,5 +1,6 @@
 import UIKit
 import Swinject
+import SwinjectStoryboard
 import Cobra
 
 
@@ -8,7 +9,7 @@ final class WeatherDetailAssembly: Constructible {
 }
 
 // MARK: - AssemblyType
-extension WeatherDetailAssembly: AssemblyType {
+extension WeatherDetailAssembly: Assembly {
 
     func assemble(container: Container) {
         
@@ -29,14 +30,14 @@ extension WeatherDetailAssembly: AssemblyType {
 
         // storyboard
         container.register(SwinjectStoryboard.self, name: "WeatherDetail") { _ in
-            return SwinjectStoryboard.create(name: "WeatherDetail", bundle: NSBundle(forClass: WeatherDetailAssembly.self), container: container)
+            return SwinjectStoryboard.create(name: "WeatherDetail", bundle: Bundle(for: WeatherDetailAssembly.self), container: container)
         }
         
         // view controller
-        container.registerForStoryboard(WeatherPageViewController.self, name: "WeatherDetailPage") { resolver, controller in
+        container.storyboardInitCompleted(WeatherPageViewController.self, name: "WeatherDetailPage") { resolver, controller in
             controller.presenter = resolver.resolve(WeatherDetailPresenter.self, argument: controller as WeatherPageViewType)
             controller.styler = resolver.resolve(WeatherDetailStyleType.self)
-            controller.pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
+            controller.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         }
         
         // presenter
@@ -59,7 +60,7 @@ extension WeatherDetailAssembly: AssemblyType {
         }
     }
 
-    func loaded(resolver: ResolverType) {
+    func loaded(_ resolver: Resolver) {
 
     }
 }

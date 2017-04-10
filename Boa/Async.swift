@@ -1,10 +1,10 @@
 import Foundation
 
 
-func asyncMain(closure: () -> ()) {
-    if NSThread.isMainThread() {
+func asyncMain(_ closure: @escaping () -> ()) {
+    if Thread.isMainThread {
         closure()
     } else {
-        dispatch_async(dispatch_get_main_queue(), closure)
+        DispatchQueue.main.async(execute: closure)
     }
 }

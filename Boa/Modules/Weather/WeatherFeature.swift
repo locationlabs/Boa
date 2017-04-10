@@ -3,7 +3,7 @@ import UIKit
 
 final class WeatherFeature {
     
-    private let storyboard: UIStoryboard
+    fileprivate let storyboard: UIStoryboard
     
     init(storyboard: UIStoryboard) {
         self.storyboard = storyboard
@@ -11,14 +11,14 @@ final class WeatherFeature {
 }
 
 protocol WeatherFeatureType: class {
-    func showInWindow(window: UIWindow)
+    func showInWindow(_ window: UIWindow)
 }
 
 // MARK: - WeatherFeatureType
 extension WeatherFeature: WeatherFeatureType {
 
-    func showInWindow(window: UIWindow) {
-        let controller = storyboard.instantiateViewControllerWithIdentifier("Weather") as! WeatherViewController
+    func showInWindow(_ window: UIWindow) {
+        let controller = storyboard.instantiateViewController(withIdentifier: "Weather") as! WeatherViewController
         window.rootViewController = UINavigationController(rootViewController: controller)
         window.makeKeyAndVisible()
     }

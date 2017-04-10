@@ -1,5 +1,5 @@
 import UIKit
-import Medusa
+import Gorgon
 
 
 /**
@@ -12,11 +12,11 @@ final class AppStateDaemon {
 // MARK: - ApplicationDidFinishLaunchingDaemonType
 extension AppStateDaemon: ApplicationDaemonType {
     
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         logDebug("AppStateDaemon did enter background")
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         logDebug("AppStateDaemon did become active")
     }
 }

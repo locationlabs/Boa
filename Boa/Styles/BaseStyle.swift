@@ -7,6 +7,6 @@ protocol BaseStyleType {
 // MARK: - CategoryPickerStyleType
 extension BaseStyleType {
     func generalBackgroundColor() -> UIColor {
-        return .yellowColor()
+        return .yellow
     }
 }

@@ -3,23 +3,23 @@ import UIKit
 
 
 enum Temperature {
-    case Fahrenheit(degrees: Double)
-    case Celsius(degrees: Double)
+    case fahrenheit(degrees: Double)
+    case celsius(degrees: Double)
     
     var degreesInFahrenheit: Double {
         switch self {
-        case .Fahrenheit(let degrees):
+        case .fahrenheit(let degrees):
             return degrees
-        case .Celsius(let degrees):
+        case .celsius(let degrees):
             return degrees * 1.8 + 32.0
         }
     }
     
     var degreesInCelsius: Double {
         switch self {
-        case .Fahrenheit(let degrees):
+        case .fahrenheit(let degrees):
             return (degrees - 32.0) / 1.8
-        case .Celsius(let degrees):
+        case .celsius(let degrees):
             return degrees
         }
     }
@@ -70,9 +70,9 @@ extension Temperature {
 extension Temperature: CustomStringConvertible {
     var description: String {
         switch self {
-        case .Fahrenheit(let degrees):
+        case .fahrenheit(let degrees):
             return "\(Int(degrees))º"
-        case .Celsius(let degrees):
+        case .celsius(let degrees):
             return "\(Int(degrees))º"
         }
     }

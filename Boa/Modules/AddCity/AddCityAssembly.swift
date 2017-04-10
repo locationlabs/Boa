@@ -1,5 +1,6 @@
 import UIKit
 import Swinject
+import SwinjectStoryboard
 import Cobra
 
 
@@ -8,7 +9,7 @@ final class AddCityAssembly: Constructible {
 }
 
 // MARK: - AssemblyType
-extension AddCityAssembly: AssemblyType {
+extension AddCityAssembly: Assembly {
 
     func assemble(container: Container) {
         
@@ -29,11 +30,11 @@ extension AddCityAssembly: AssemblyType {
 
         // storyboard
         container.register(SwinjectStoryboard.self, name: "AddCity") { _ in
-            return SwinjectStoryboard.create(name: "AddCity", bundle: NSBundle(forClass: AddCityAssembly.self), container: container)
+            return SwinjectStoryboard.create(name: "AddCity", bundle: Bundle(for: AddCityAssembly.self), container: container)
         }
         
         // view controller
-        container.registerForStoryboard(AddCityViewController.self, name: "AddCity") { resolver, controller in
+        container.storyboardInitCompleted(AddCityViewController.self, name: "AddCity") { resolver, controller in
             controller.presenter = resolver.resolve(AddCityPresenter.self, argument: controller as AddCityViewType)
             controller.styler = resolver.resolve(AddCityStyleType.self)
         }
@@ -58,7 +59,7 @@ extension AddCityAssembly: AssemblyType {
         }
     }
 
-    func loaded(resolver: ResolverType) {
+    func loaded(_ resolver: Resolver) {
 
     }
 }

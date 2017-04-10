@@ -1,6 +1,6 @@
 import Swinject
 import Cobra
-import Medusa
+import Gorgon
 
 
 /**
@@ -11,7 +11,7 @@ final class DaemonAssembly: Constructible {
 }
 
 // MARK: - AssemblyType
-extension DaemonAssembly: AssemblyType {
+extension DaemonAssembly: Assembly {
 
     func assemble(container: Container) {
         container.register(AppStateDaemon.self) { _ in
@@ -19,7 +19,7 @@ extension DaemonAssembly: AssemblyType {
         }
     }
 
-    func loaded(resolver: ResolverType) {
+    func loaded(_ resolver: Resolver) {
         DaemonManager.sharedInstance.register(resolver.resolve(AppStateDaemon.self)!)
     }
 }

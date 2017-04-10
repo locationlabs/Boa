@@ -1,20 +1,20 @@
 import UIKit
 import Cobra
-import Medusa
+import Gorgon
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow? = UIWindow()
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         logDebug("Application starting...")
         
         //
         // STEP 1
         // Enabling debug logging for frameworks. You shouldn't enable logging in production
         //
-        Medusa.Log.enableDebugging = true
+        Gorgon.Log.enableDebugging = true
         Cobra.Log.enableDebugging = true
         
         //
@@ -58,6 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
  - parameter message: the message to load
  */
-func logDebug(@autoclosure message: () -> String) {
+func logDebug( _ message: @autoclosure () -> String) {
     NSLog("[Boa] \(message())")
 }

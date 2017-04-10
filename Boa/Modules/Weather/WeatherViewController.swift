@@ -11,53 +11,52 @@ final class WeatherViewController: UIViewController {
     @IBOutlet weak var addBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     
-    private var weatherReports = [WeatherReportEntity]()
-    private var selectedIndexPath: NSIndexPath?
+    fileprivate var weatherReports = [WeatherReportEntity]()
+    fileprivate var selectedIndexPath: IndexPath?
 
     @IBOutlet weak var footerView: WeatherTableFooterView!
     override func viewDidLoad() {
         super.viewDidLoad()
         applyStyles()
         
-        navigationController?.navigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
         
-        tableView.tableFooterView = UIView(frame: CGRectZero)
-        tableView.separatorStyle = .None
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.separatorStyle = .none
         
         presenter.requestWeatherReports()
         
         tableView.tableFooterView = footerView
         footerView.delegate = self
-        //(tableView.tableFooterView as! WeatherTableFooterView).delegate = self
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
-    @IBAction func doAdd(sender: AnyObject) {
+    @IBAction func doAdd(_ sender: AnyObject) {
         presenter.requestAddCity()
     }
 }
 
 protocol WeatherViewType: class {
-    func displayWeatherReports(weatherReports: [WeatherReportEntity])
-    func displayError(error: ErrorType)
+    func displayWeatherReports(_ weatherReports: [WeatherReportEntity])
+    func displayError(_ error: Error)
 }
 
 // MARK: - WeatherViewType
 extension WeatherViewController: WeatherViewType {
     
-    func displayWeatherReports(weatherReports: [WeatherReportEntity]) {
+    func displayWeatherReports(_ weatherReports: [WeatherReportEntity]) {
         self.weatherReports = weatherReports
         tableView.reloadData()
     }
     
-    func displayError(error: ErrorType) {
+    func displayError(_ error: Error) {
         logDebug("TODO")
     }
     
-    func displayGreeting(date: NSDate, message: String) {
+    func displayGreeting(_ date: Date, message: String) {
         title = message
     }
 }
@@ -65,17 +64,17 @@ extension WeatherViewController: WeatherViewType {
 // MARK: - UITableViewDataSource
 extension WeatherViewController: UITableViewDataSource {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return weatherReports.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let weatherReport = weatherReports[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("cityCell") as! WeatherTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cityCell") as! WeatherTableViewCell
         
         // set content on cell
         cell.nameLabel.text = weatherReport.city.name
@@ -97,13 +96,12 @@ extension WeatherViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension WeatherViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let weatherReport = weatherReports[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         selectedIndexPath = indexPath
 
         presenter.requestDetailsForWeatherReports(weatherReports, atIndex: indexPath.row)
@@ -125,8 +123,6 @@ extension WeatherViewController: FooterViewDelegate {
         }
         
         styler.styleFooterView(footerView, isCelcius: isCelcius)
-        
-
         tableView.reloadData()
     }
 }
@@ -134,9 +130,9 @@ extension WeatherViewController: FooterViewDelegate {
 
 // MARK: - Cell Animtions
 extension WeatherViewController : ExpandingTransitionPresentingViewController {
-    func expandingTransitionTargetViewForTransition(transition: ExpandingCellTransition) -> UIView! {
+    func expandingTransitionTargetViewForTransition(_ transition: ExpandingCellTransition) -> UIView! {
         if let indexPath = selectedIndexPath {
-            return tableView.cellForRowAtIndexPath(indexPath)
+            return tableView.cellForRow(at: indexPath)
         }
         else {
             return nil
@@ -147,10 +143,7 @@ extension WeatherViewController : ExpandingTransitionPresentingViewController {
 // MARK: - Private
 private extension WeatherViewController {
     func applyStyles() {
-        
         styler.styleFooterView(footerView, isCelcius: isCelcius)
-        
-
     }
 }
 
