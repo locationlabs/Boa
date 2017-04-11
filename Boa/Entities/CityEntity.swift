@@ -3,7 +3,7 @@
 /**
 The CityEntity represents a city
 */
-final class CityEntity {
+struct CityEntity {
     
     var name: String
     

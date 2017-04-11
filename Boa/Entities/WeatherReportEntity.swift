@@ -3,7 +3,7 @@
 /**
 The WeatherReportEntity represents the weather report for a city
 */
-final class WeatherReportEntity {
+struct WeatherReportEntity {
     
     let city: CityEntity
     var temperature: Temperature
