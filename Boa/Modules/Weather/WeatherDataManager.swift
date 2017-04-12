@@ -14,7 +14,7 @@ final class WeatherDataManager {
 
 protocol WeatherDataManagerType: class {
     func fetchCities() -> Promise<[CityEntity]>
-    func fetchWeatherReportForCity(city: CityEntity) -> Promise<WeatherReportEntity>
+    func fetchWeatherReportForCity(_ city: CityEntity) -> Promise<WeatherReportEntity>
 }
 
 // MARK: - WeatherDataManagerType
@@ -24,7 +24,7 @@ extension WeatherDataManager: WeatherDataManagerType {
         return cityService.fetchCities()
     }
     
-    func fetchWeatherReportForCity(city: CityEntity) -> Promise<WeatherReportEntity> {
+    func fetchWeatherReportForCity(_ city: CityEntity) -> Promise<WeatherReportEntity> {
         return weatherService.fetchWeatherReportForCity(city: city)
     }
 }

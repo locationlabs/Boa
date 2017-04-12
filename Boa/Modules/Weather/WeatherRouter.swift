@@ -13,17 +13,17 @@ final class WeatherRouter {
 
 protocol WeatherRouterType: class {
     
-    func showDetailsForWeatherReport(weatherReports: [WeatherReportEntity], atIndex index: Int)
+    func showDetailsForWeatherReport(_ weatherReports: [WeatherReportEntity], atIndex index: Int)
     func showAddCity()
 }
 
 // MARK: - WeatherRouterType
 extension WeatherRouter: WeatherRouterType {
-    func showDetailsForWeatherReport(weatherReports: [WeatherReportEntity], atIndex index: Int) {
-        try! App.sharedInstance.feature(WeatherDetailFeatureType.self).showFromViewController(fromViewController: controller, weatherReports: weatherReports, atIndex: index)
+    func showDetailsForWeatherReport(_ weatherReports: [WeatherReportEntity], atIndex index: Int) {
+        try! App.sharedInstance.feature(WeatherDetailFeatureType.self).showFromViewController(controller, weatherReports: weatherReports, atIndex: index)
     }
     
     func showAddCity() {
-        try! App.sharedInstance.feature(AddCityFeatureType.self).showFromViewController(fromViewController: controller)
+        try! App.sharedInstance.feature(AddCityFeatureType.self).showFromViewController(controller)
     }
 }

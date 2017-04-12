@@ -8,7 +8,7 @@ final class WeatherPageViewController: UIViewController {
     var pageViewController: UIPageViewController!
     var weatherReports: [WeatherReportEntity]!
     var initialIndex: Int!
-    var orderedWeatherDetailViewControllers: [WeatherDetailViewController]!
+    fileprivate var orderedWeatherDetailViewControllers: [WeatherDetailViewController]!
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var pageControl: UIPageControl!
@@ -16,7 +16,7 @@ final class WeatherPageViewController: UIViewController {
         super.viewWillAppear(true)
         UIApplication.shared.statusBarStyle = .lightContent
     }
-    @IBAction func didPressListButton(sender: AnyObject) {
+    @IBAction func didPressListButton(_ sender: AnyObject) {
         presenter.requestListView()
     }
     
@@ -42,7 +42,7 @@ final class WeatherPageViewController: UIViewController {
         
         
         addChildViewController(pageViewController)
-        pageViewController.view.frame = CGRect(x: 0, y: 0, width: containerView.frame.size.width, height: containerView.frame.size.height)
+        pageViewController.view.frame = CGRect(x: 0,y: 0,width: containerView.frame.size.width, height: containerView.frame.size.height)
         containerView.addSubview(pageViewController.view)
         pageViewController.didMove(toParentViewController: self)
     }
@@ -64,7 +64,7 @@ extension WeatherPageViewController : UIPageViewControllerDelegate, UIPageViewCo
     }
 
     func pageViewController(_ pageViewController: UIPageViewController,
-                            viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = orderedWeatherDetailViewControllers.index(of: viewController as! WeatherDetailViewController) else {
             return nil
         }
@@ -103,7 +103,7 @@ extension WeatherPageViewController : UIPageViewControllerDelegate, UIPageViewCo
 }
 
 extension WeatherPageViewController {
-    func initViewControllers() {
+    fileprivate func initViewControllers() {
         let weatherDetailStoryboard = UIStoryboard(name: "WeatherDetail", bundle: nil)
 
         orderedWeatherDetailViewControllers = weatherReports.map {
@@ -116,7 +116,7 @@ extension WeatherPageViewController {
 }
 
 extension WeatherPageViewController {
-    func applyStyles() {
-        styler.stylePageControl(pageControl: pageControl)
+    fileprivate func applyStyles() {
+        styler.stylePageControl(pageControl)
     }
 }

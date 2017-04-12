@@ -20,6 +20,6 @@ final class WeatherDetailViewController: UIViewController {
 // MARK: - Private
 private extension WeatherDetailViewController {
     func applyStyles() {
-        styler.styleGradientView(view: view, withTemperature: weatherReport.temperature)
+        styler.styleGradientView(view, withTemperature: weatherReport.temperature)
     }
 }

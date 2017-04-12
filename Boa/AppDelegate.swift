@@ -1,6 +1,6 @@
 import UIKit
 import Cobra
-import Medusa
+import Gorgon
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // STEP 1
         // Enabling debug logging for frameworks. You shouldn't enable logging in production
         //
-        Medusa.Log.enableDebugging = true
+        Gorgon.Log.enableDebugging = true
         Cobra.Log.enableDebugging = true
         
         //
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // STEP 5
         // Route to our first feature in our application window
         //
-        try! App.sharedInstance.feature(WeatherFeatureType.self).showInWindow(window: window!)
+        try! App.sharedInstance.feature(WeatherFeatureType.self).showInWindow(window!)
         return true
     }
 }

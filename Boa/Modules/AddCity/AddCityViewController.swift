@@ -14,11 +14,11 @@ final class AddCityViewController: UIViewController {
         applyStyles()
     }
     
-    @IBAction func doCancel(sender: AnyObject) {
+    @IBAction func doCancel(_ sender: AnyObject) {
         presenter.requestDismiss()
     }
     
-    @IBAction func doAdd(sender: AnyObject) {
+    @IBAction func doAdd(_ sender: AnyObject) {
         
     }
 }

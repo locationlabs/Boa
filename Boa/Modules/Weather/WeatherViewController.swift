@@ -11,8 +11,8 @@ final class WeatherViewController: UIViewController {
     @IBOutlet weak var addBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     
-    var weatherReports = [WeatherReportEntity]()
-    var selectedIndexPath: NSIndexPath?
+    fileprivate var weatherReports = [WeatherReportEntity]()
+    fileprivate var selectedIndexPath: IndexPath?
 
     @IBOutlet weak var footerView: WeatherTableFooterView!
     override func viewDidLoad() {
@@ -28,43 +28,42 @@ final class WeatherViewController: UIViewController {
         
         tableView.tableFooterView = footerView
         footerView.delegate = self
-        //(tableView.tableFooterView as! WeatherTableFooterView).delegate = self
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
+    override var preferredStatusBarStyle : UIStatusBarStyle {
         return .lightContent
     }
     
-    @IBAction func doAdd(sender: AnyObject) {
+    @IBAction func doAdd(_ sender: AnyObject) {
         presenter.requestAddCity()
     }
 }
 
 protocol WeatherViewType: class {
-    func displayWeatherReports(weatherReports: [WeatherReportEntity])
-    func displayError(error: Error)
+    func displayWeatherReports(_ weatherReports: [WeatherReportEntity])
+    func displayError(_ error: Error)
 }
 
 // MARK: - WeatherViewType
 extension WeatherViewController: WeatherViewType {
     
-    func displayWeatherReports(weatherReports: [WeatherReportEntity]) {
+    func displayWeatherReports(_ weatherReports: [WeatherReportEntity]) {
         self.weatherReports = weatherReports
         tableView.reloadData()
     }
     
-    func displayError(error: Error) {
+    func displayError(_ error: Error) {
         logDebug(message: "TODO")
     }
     
-    func displayGreeting(date: NSDate, message: String) {
+    func displayGreeting(_ date: Date, message: String) {
         title = message
     }
 }
 
 // MARK: - UITableViewDataSource
 extension WeatherViewController: UITableViewDataSource {
-        
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -86,9 +85,9 @@ extension WeatherViewController: UITableViewDataSource {
         }
         
         // apply styles to cell
-        styler.styleGradientLayer(gradientLayer: cell.gradientLayer, forTemparture: weatherReport.temperature)
-        styler.styleCityNameLabel(label: cell.nameLabel, forTemparture: weatherReport.temperature)
-        styler.styleTemparatureLabel(label: cell.temperatureLabel, forTemparture: weatherReport.temperature)
+        styler.styleGradientLayer(cell.gradientLayer, forTemparture: weatherReport.temperature)
+        styler.styleCityNameLabel(cell.nameLabel, forTemparture: weatherReport.temperature)
+        styler.styleTemparatureLabel(cell.temperatureLabel, forTemparture: weatherReport.temperature)
         
         return cell
     }
@@ -96,15 +95,16 @@ extension WeatherViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension WeatherViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80.0
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
-        selectedIndexPath = indexPath as NSIndexPath?
-        
-        presenter.requestDetailsForWeatherReports(weatherReports: weatherReports, atIndex: indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: true)
+        selectedIndexPath = indexPath
+
+        presenter.requestDetailsForWeatherReports(weatherReports, atIndex: indexPath.row)
     }
 }
 
@@ -122,9 +122,7 @@ extension WeatherViewController: FooterViewDelegate {
             isCelcius = true
         }
         
-        styler.styleFooterView(view: footerView, isCelcius: isCelcius)
-        
-
+        styler.styleFooterView(footerView, isCelcius: isCelcius)
         tableView.reloadData()
     }
 }
@@ -134,7 +132,7 @@ extension WeatherViewController: FooterViewDelegate {
 extension WeatherViewController : ExpandingTransitionPresentingViewController {
     func expandingTransitionTargetViewForTransition(transition: ExpandingCellTransition) -> UIView! {
         if let indexPath = selectedIndexPath {
-            return tableView.cellForRow(at: indexPath as IndexPath)
+            return tableView.cellForRow(at: indexPath)
         }
         else {
             return nil
@@ -145,10 +143,7 @@ extension WeatherViewController : ExpandingTransitionPresentingViewController {
 // MARK: - Private
 private extension WeatherViewController {
     func applyStyles() {
-        
-        styler.styleFooterView(view: footerView, isCelcius: isCelcius)
-        
-
+        styler.styleFooterView(footerView, isCelcius: isCelcius)
     }
 }
 

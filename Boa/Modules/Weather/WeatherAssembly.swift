@@ -9,7 +9,7 @@ final class WeatherAssembly: Constructible {
 }
 
 // MARK: - AssemblyType
-extension WeatherAssembly: AssemblyType {
+extension WeatherAssembly: Assembly {
 
     func assemble(container: Container) {
         
@@ -34,7 +34,7 @@ extension WeatherAssembly: AssemblyType {
         }
         
         // view controller
-        container.registerForStoryboard(WeatherViewController.self, name: "Weather") { resolver, controller in
+        container.storyboardInitCompleted(WeatherViewController.self, name: "Weather") { resolver, controller in
             controller.presenter = resolver.resolve(WeatherPresenter.self, argument: controller as WeatherViewType)
             controller.styler = resolver.resolve(WeatherStyleType.self)
         }
@@ -60,7 +60,7 @@ extension WeatherAssembly: AssemblyType {
         }
     }
 
-    func loaded(resolver: ResolverType) {
+    func loaded(_ resolver: Resolver) {
 
     }
 }

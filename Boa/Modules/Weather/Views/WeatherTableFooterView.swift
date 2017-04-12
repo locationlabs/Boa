@@ -12,11 +12,11 @@ final class WeatherTableFooterView: UIView {
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var weatherFormat: UIButton!
     
-    @IBAction func didPressAdd(sender: AnyObject) {
+    @IBAction func didPressAdd(_ sender: AnyObject) {
         delegate.didPressAdd()
     }
     
-    @IBAction func didPresWeatherFormatButton(sender: AnyObject) {
+    @IBAction func didPresWeatherFormatButton(_ sender: AnyObject) {
         
         delegate.didPressWeatherFormatButton()
     }

@@ -9,7 +9,7 @@ final class WeatherDetailAssembly: Constructible {
 }
 
 // MARK: - AssemblyType
-extension WeatherDetailAssembly: AssemblyType {
+extension WeatherDetailAssembly: Assembly {
 
     func assemble(container: Container) {
         
@@ -34,7 +34,7 @@ extension WeatherDetailAssembly: AssemblyType {
         }
         
         // view controller
-        container.registerForStoryboard(WeatherPageViewController.self, name: "WeatherDetailPage") { resolver, controller in
+        container.storyboardInitCompleted(WeatherPageViewController.self, name: "WeatherDetailPage") { resolver, controller in
             controller.presenter = resolver.resolve(WeatherDetailPresenter.self, argument: controller as WeatherPageViewType)
             controller.styler = resolver.resolve(WeatherDetailStyleType.self)
             controller.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
@@ -60,7 +60,7 @@ extension WeatherDetailAssembly: AssemblyType {
         }
     }
 
-    func loaded(resolver: ResolverType) {
+    func loaded(_ resolver: Resolver) {
 
     }
 }

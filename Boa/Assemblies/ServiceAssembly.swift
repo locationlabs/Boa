@@ -10,7 +10,7 @@ final class ServiceAssembly: Constructible {
 }
 
 // MARK: - AssemblyType
-extension ServiceAssembly: AssemblyType {
+extension ServiceAssembly: Assembly {
 
     func assemble(container: Container) {
         container.register(CityServiceType.self) { _ in
@@ -21,7 +21,7 @@ extension ServiceAssembly: AssemblyType {
         }
     }
 
-    func loaded(resolver: ResolverType) {
+    func loaded(resolver: Resolver) {
 
     }
 }

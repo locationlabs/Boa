@@ -14,7 +14,7 @@ final class WeatherPresenter {
 
 protocol WeatherPresenterViewType: class {
     func requestWeatherReports()
-    func requestDetailsForWeatherReports(weatherReports: [WeatherReportEntity], atIndex index: Int)
+    func requestDetailsForWeatherReports(_ weatherReports: [WeatherReportEntity], atIndex index: Int)
     func requestAddCity()
 }
 
@@ -25,8 +25,8 @@ extension WeatherPresenter: WeatherPresenterViewType {
         interactor.fetchWeatherReports()
     }
     
-    func requestDetailsForWeatherReports(weatherReports: [WeatherReportEntity], atIndex index: Int) {
-        router.showDetailsForWeatherReport(weatherReports: weatherReports, atIndex: index)
+    func requestDetailsForWeatherReports(_ weatherReports: [WeatherReportEntity], atIndex index: Int) {
+        router.showDetailsForWeatherReport(weatherReports, atIndex: index)
     }
     
     func requestAddCity() {
@@ -35,22 +35,22 @@ extension WeatherPresenter: WeatherPresenterViewType {
 }
 
 protocol WeatherPresenterInteractorType: class {
-    func successfullyFetchedWeatherReports(weatherReports: [WeatherReportEntity])
-    func failedToFetchWeatherReports(error: Error)
+    func successfullyFetchedWeatherReports(_ weatherReports: [WeatherReportEntity])
+    func failedToFetchWeatherReports(_ error: Error)
 }
 
 // MARK: - WeatherPresenterInteractorType
 extension WeatherPresenter: WeatherPresenterInteractorType {
 
-    func successfullyFetchedWeatherReports(weatherReports: [WeatherReportEntity]) {
+    func successfullyFetchedWeatherReports(_ weatherReports: [WeatherReportEntity]) {
         asyncMain {
-            self.view?.displayWeatherReports(weatherReports: weatherReports)
+            self.view?.displayWeatherReports(weatherReports)
         }
     }
     
-    func failedToFetchWeatherReports(error: Error) {
+    func failedToFetchWeatherReports(_ error: Error) {
         asyncMain {
-            self.view?.displayError(error: error)
+            self.view?.displayError(error)
         }
     }
 }

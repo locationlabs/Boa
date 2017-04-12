@@ -3,7 +3,7 @@ import UIKit
 
 final class WeatherDetailFeature {
     
-    let storyboard: UIStoryboard
+    fileprivate let storyboard: UIStoryboard
     
     init(storyboard: UIStoryboard) {
         self.storyboard = storyboard
@@ -11,13 +11,13 @@ final class WeatherDetailFeature {
 }
 
 protocol WeatherDetailFeatureType: class {
-    func showFromViewController(fromViewController: UIViewController, weatherReports: [WeatherReportEntity], atIndex index: Int)
+    func showFromViewController(_ fromViewController: UIViewController, weatherReports: [WeatherReportEntity], atIndex index: Int)
 }
 
 // MARK: - WeatherDetailFeatureType
 extension WeatherDetailFeature: WeatherDetailFeatureType {
    
-    func showFromViewController(fromViewController: UIViewController, weatherReports: [WeatherReportEntity], atIndex index: Int) {
+    func showFromViewController(_ fromViewController: UIViewController, weatherReports: [WeatherReportEntity], atIndex index: Int) {
         let controller = storyboard.instantiateViewController(withIdentifier: "WeatherDetailPage") as! WeatherPageViewController
         controller.weatherReports = weatherReports
         controller.initialIndex = index
