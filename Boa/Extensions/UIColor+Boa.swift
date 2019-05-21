@@ -53,11 +53,11 @@ public extension UIColor {
         
         if rgb.hasPrefix("#") {
             let index = rgb.index(rgb.startIndex, offsetBy:1)
-            let hex = rgb.substring(from: index)
+            let hex = String(rgb[index...])
             let scanner = Scanner(string: hex)
             var hexValue: CUnsignedLongLong = 0
             if scanner.scanHexInt64(&hexValue) {
-                if hex.characters.count == 6 {
+                if hex.count == 6 {
                     red = CGFloat((hexValue & 0xFF0000) >> 16)
                     green = CGFloat((hexValue & 0x00FF00) >> 8)
                     blue = CGFloat(hexValue & 0x0000FF)

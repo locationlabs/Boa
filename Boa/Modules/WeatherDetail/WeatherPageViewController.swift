@@ -14,7 +14,6 @@ final class WeatherPageViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        UIApplication.shared.statusBarStyle = .lightContent
     }
     @IBAction func didPressListButton(_ sender: AnyObject) {
         presenter.requestListView()
@@ -41,10 +40,14 @@ final class WeatherPageViewController: UIViewController {
             direction: .forward, animated: true, completion: nil)
         
         
-        addChildViewController(pageViewController)
+        addChild(pageViewController)
         pageViewController.view.frame = CGRect(x: 0,y: 0,width: containerView.frame.size.width, height: containerView.frame.size.height)
         containerView.addSubview(pageViewController.view)
-        pageViewController.didMove(toParentViewController: self)
+        pageViewController.didMove(toParent: self)
+    }
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
 }
 
@@ -105,12 +108,14 @@ extension WeatherPageViewController : UIPageViewControllerDelegate, UIPageViewCo
 extension WeatherPageViewController {
     fileprivate func initViewControllers() {
         let weatherDetailStoryboard = UIStoryboard(name: "WeatherDetail", bundle: nil)
-
-        orderedWeatherDetailViewControllers = weatherReports.map {
-            let weatherDetailVC = weatherDetailStoryboard.instantiateViewController(withIdentifier: "WeatherDetail") as! WeatherDetailViewController
-            weatherDetailVC.weatherReport = $0
-            weatherDetailVC.styler = styler
-            return weatherDetailVC
+        
+        if let reports = weatherReports {
+            orderedWeatherDetailViewControllers = reports.map {
+                let weatherDetailVC = weatherDetailStoryboard.instantiateViewController(withIdentifier: "WeatherDetail") as! WeatherDetailViewController
+                weatherDetailVC.weatherReport = $0
+                weatherDetailVC.styler = styler
+                return weatherDetailVC
+            }
         }
     }
 }

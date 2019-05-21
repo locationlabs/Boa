@@ -35,21 +35,21 @@ struct WeatherStyle: WeatherStyleType, BaseStyleType {
         navigationBar.tintColor = .white
         navigationBar.isTranslucent = false
         navigationBar.barStyle = .black
-        navigationBar.titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.white,
-            NSFontAttributeName: UIFont(name: "AvenirNext-Regular", size: 20.0)!
-        ]
+        navigationBar.titleTextAttributes = convertToOptionalNSAttributedStringKeyDictionary([
+            NSAttributedString.Key.foregroundColor.rawValue: UIColor.white,
+            NSAttributedString.Key.font.rawValue: UIFont(name: "AvenirNext-Regular", size: 20.0)!
+        ])
     }
     
     func styleAddBarButtonItem(_ barButtonItem: UIBarButtonItem) {
         barButtonItem.tintColor = .white
-        barButtonItem.setTitleTextAttributes([
-            NSFontAttributeName: UIFont(name: "AvenirNext-Regular", size: 17.0)!
-        ], for: UIControlState())
+        barButtonItem.setTitleTextAttributes(convertToOptionalNSAttributedStringKeyDictionary([
+            convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont(name: "AvenirNext-Regular", size: 17.0)!
+        ]), for: UIControl.State())
     }
     
     func styleFooterView(_ view: WeatherTableFooterView, isCelcius: Bool) {
-        let title = NSMutableAttributedString(string: "f / c", attributes: [NSForegroundColorAttributeName: UIColor.lightGray])
+        let title = NSMutableAttributedString(string: "f / c", attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): UIColor.lightGray]))
         
         var range: NSRange
         if isCelcius {
@@ -58,10 +58,21 @@ struct WeatherStyle: WeatherStyleType, BaseStyleType {
             range = NSRange(location: 0, length: 1)
         }
         
-        title.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range: range)
+        title.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range: range)
         
-        view.weatherFormat.setAttributedTitle(title, for: UIControlState())
+        view.weatherFormat.setAttributedTitle(title, for: UIControl.State())
         
-        view.addButton.setImage(UIImage(named:"PlusIcon")?.withTint(color: .white), for: UIControlState())
+        view.addButton.setImage(UIImage(named:"PlusIcon")?.withTint(color: .white), for: UIControl.State())
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }
