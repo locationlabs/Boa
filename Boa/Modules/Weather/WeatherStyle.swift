@@ -35,21 +35,21 @@ struct WeatherStyle: WeatherStyleType, BaseStyleType {
         navigationBar.tintColor = .white
         navigationBar.isTranslucent = false
         navigationBar.barStyle = .black
-        navigationBar.titleTextAttributes = convertToOptionalNSAttributedStringKeyDictionary([
-            NSAttributedString.Key.foregroundColor.rawValue: UIColor.white,
-            NSAttributedString.Key.font.rawValue: UIFont(name: "AvenirNext-Regular", size: 20.0)!
-        ])
+        navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont(name: "AvenirNext-Regular", size: 20.0)!
+        ]
     }
     
     func styleAddBarButtonItem(_ barButtonItem: UIBarButtonItem) {
         barButtonItem.tintColor = .white
-        barButtonItem.setTitleTextAttributes(convertToOptionalNSAttributedStringKeyDictionary([
-            convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont(name: "AvenirNext-Regular", size: 17.0)!
-        ]), for: UIControl.State())
+        barButtonItem.setTitleTextAttributes([
+            NSAttributedString.Key.font: UIFont(name: "AvenirNext-Regular", size: 17.0)!
+        ], for: UIControl.State())
     }
     
     func styleFooterView(_ view: WeatherTableFooterView, isCelcius: Bool) {
-        let title = NSMutableAttributedString(string: "f / c", attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): UIColor.lightGray]))
+        let title = NSMutableAttributedString(string: "f / c", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         
         var range: NSRange
         if isCelcius {
@@ -64,15 +64,4 @@ struct WeatherStyle: WeatherStyleType, BaseStyleType {
         
         view.addButton.setImage(UIImage(named:"PlusIcon")?.withTint(color: .white), for: UIControl.State())
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
-	return input.rawValue
 }
