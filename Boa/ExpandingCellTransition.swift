@@ -82,11 +82,9 @@ class ExpandingCellTransition: NSObject, UIViewControllerAnimatedTransitioning, 
         // perform animation
         backgroundViewController.view.isHidden = true
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: { () -> Void in
-            [self]
             self.configureViewsToState(state: postTransition, width: width, height: height, targetFrame: targetFrame, foregroundView: foregroundViewController.view)
             }, completion: {
                 (finished) in
-                [self]
                 self.topRegionSnapshot.removeFromSuperview()
                 self.bottomRegionSnapshot.removeFromSuperview()
                 
